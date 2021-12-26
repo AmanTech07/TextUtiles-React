@@ -36,13 +36,19 @@ export default function TextForm(props) {
         props.alert(" Text Section is Cleared!", "success");
     }
 
+    const btnColor = {
+        color: props.mode==='light'?'black':'white',
+        backgroundColor: props.mode==='light'?'#423d6882':'black'
+    }
+
     const wordCal = ()=>{
-        if(text.charAt(text.length-1) === " " || text.charAt(text.length-1)===""){
-            return text.split(" ").length-1;
-        }
-        else{
-            return text.split(" ").length;
-        }
+        // if(text.charAt(text.length-1) === " " || text.charAt(text.length-1)===""){
+        //     return text.split(" ").length-1;
+        // }
+        // else{
+        //     return text.split(" ").length;
+        // }
+        return text.split(/\s+/).filter((Element) => {return Element.length!==0}).length;
     }
 
     const handleOnChange = (event)=>{
@@ -55,20 +61,20 @@ export default function TextForm(props) {
             <div className='container my-3' style={{color : props.mode==='light'?'black':'white'}} >
                 <h2>{props.heading}</h2>
                 <div className="mb-3 my-2">
-                    <textarea className="form-control" value={text} onChange={handleOnChange} style={{backgroundColor: props.mode==='light'?'white':'grey', color : props.mode==='light'?'black':'white'}} id="myBox" rows="10"></textarea>
+                    <textarea className="form-control" value={text} onChange={handleOnChange} style={{backgroundColor: props.mode==='light'?'white':'#5e5e5e', color : props.mode==='light'?'black':'white'}} id="myBox" rows="10"></textarea>
                 </div>
-                <button type="button" className="btn btn-primary mx-1 my-1" onClick={handleUpClick}>Convert to UPPERCASE</button>
-                <button type="button" className="btn btn-primary mx-1 my-1" onClick={handleLoClick}>Convert to lowercase</button>
-                <button type="button" className="btn btn-primary mx-1 my-1" onClick={handleSentenceClick}>Convert to Sentence case</button>
-                <button type="button" className="btn btn-primary mx-1 my-1" onClick={handleCopyClick}>Copy Text</button>
-                <button type="button" className="btn btn-primary mx-1 my-1" onClick={handleClrClick}>Clear</button>
+                <button type="button" disabled={text.length===0} className="btn mx-1 my-1" style={btnColor} onClick={handleUpClick}>Convert to UPPERCASE</button>
+                <button type="button" disabled={text.length===0} className="btn mx-1 my-1" style={btnColor} onClick={handleLoClick}>Convert to lowercase</button>
+                <button type="button" disabled={text.length===0} className="btn mx-1 my-1" style={btnColor} onClick={handleSentenceClick}>Convert to Sentence case</button>
+                <button type="button" disabled={text.length===0} className="btn mx-1 my-1" style={btnColor} onClick={handleCopyClick}>Copy Text</button>
+                <button type="button" disabled={text.length===0} className="btn mx-1 my-1" style={btnColor} onClick={handleClrClick}>Clear</button>
             </div>
             <div className="container my-3" style={{color : props.mode==='light'?'black':'white'}}>
                 <h3>Your Text Summary</h3>
                 <p> {wordCal()} Words and {text.length} Characters </p>
                 <p> Avg. Time to Read this text : {text.length>0?0.008*text.split(" ").length:0} Minutes </p>
                 <h3>Preview</h3>
-                <p> {text.length>0?text:"Enter something in the Text Box to preview it here"} </p>
+                <p> {text.length>0?text:"Nothing to preview!"} </p>
             </div>
         </>
     )
